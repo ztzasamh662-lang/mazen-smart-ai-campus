@@ -1,0 +1,23 @@
+# Virtual Environment
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Data (contains real student images)
+data/
+
+# DeepFace representations (auto-generated)
+representations_facenet.pkl
+*.pkl
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
