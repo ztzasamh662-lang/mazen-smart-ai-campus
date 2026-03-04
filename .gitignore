@@ -18,3 +18,10 @@ Thumbs.db
 
 # Logs
 *.log
+# Runtime generated files
+temp/
+data/*.csv
+
+# Uploaded images
+*.jpg
+*.png
