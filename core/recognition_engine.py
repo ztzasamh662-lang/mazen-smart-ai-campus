@@ -3,6 +3,15 @@ import psycopg2
 import pickle
 from config import DB_CONFIG
 import os
+import math
+
+
+# threshold أدق للتعرف
+THRESHOLD = 7
+
+
+def euclidean_distance(a, b):
+    return math.sqrt(sum((x - y) ** 2 for x, y in zip(a, b)))
 
 
 def recognize_face(image_path):
@@ -12,11 +21,16 @@ def recognize_face(image_path):
 
     try:
         # استخراج embedding للشخص الحالي
-        embedding = DeepFace.represent(
+        representation = DeepFace.represent(
             img_path=image_path,
             model_name="Facenet",
             enforce_detection=False
-        )[0]["embedding"]
+        )
+
+        if not representation:
+            return {"status": "no_face"}
+
+        embedding = representation[0]["embedding"]
 
     except Exception:
         return {"status": "no_face"}
@@ -32,16 +46,21 @@ def recognize_face(image_path):
 
         db_embedding = pickle.loads(db_embedding)
 
-        # حساب المسافة (Euclidean)
-        distance = sum(
-            (a - b) ** 2 for a, b in zip(embedding, db_embedding)
-        ) ** 0.5
+        # حساب المسافة
+        distance = euclidean_distance(embedding, db_embedding)
 
-        if distance < 10:   # threshold مبدئي
+        if distance < THRESHOLD:
+
+            cur.close()
+            conn.close()
+
             return {
                 "status": "matched",
                 "person_id": person_id,
                 "name": name
             }
+
+    cur.close()
+    conn.close()
 
     return {"status": "unknown"}

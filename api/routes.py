@@ -4,6 +4,8 @@ import os
 import cv2
 import time
 
+from core.camera_manager import CameraManager
+from core.live_camera import run_live_camera
 from core.registration_service import register_person
 from core.tracking_engine import detect_and_track
 from core.proctoring_engine import detect_phone
@@ -52,7 +54,7 @@ async def run_attendance(file: UploadFile = File(...)):
 @router.post("/run_webcam")
 async def run_webcam():
 
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(0)
 
     if not cap.isOpened():
         return {"status": "camera_error"}
@@ -158,3 +160,25 @@ async def register_person_api(
     result = register_person(name, file_path)
 
     return result
+
+@router.get("/live_camera")
+def start_live_camera():
+
+    run_live_camera(0)
+
+    return {"status": "camera_started"}
+
+@router.get("/start_campus_cameras")
+def start_campus_cameras():
+
+    manager = CameraManager()
+
+    manager.start_camera(0)
+
+    # لو أضفت كاميرات لاحقًا
+    # manager.start_camera(1)
+    # manager.start_camera(2)
+
+    manager.run()
+
+    return {"status": "campus cameras started"}

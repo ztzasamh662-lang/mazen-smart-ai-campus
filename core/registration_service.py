@@ -2,8 +2,16 @@ from deepface import DeepFace
 import psycopg2
 import pickle
 import os
+import math
 
 from config import DB_CONFIG
+
+
+THRESHOLD = 10  # مسافة التشابه
+
+
+def euclidean_distance(a, b):
+    return math.sqrt(sum((x - y) ** 2 for x, y in zip(a, b)))
 
 
 def register_person(name: str, image_path: str):
@@ -30,6 +38,26 @@ def register_person(name: str, image_path: str):
         conn = psycopg2.connect(**DB_CONFIG)
         cur = conn.cursor()
 
+        # قراءة كل الأشخاص المسجلين
+        cur.execute("SELECT id, embedding FROM persons")
+        rows = cur.fetchall()
+
+        # مقارنة الـ embedding
+        for person_id, db_embedding in rows:
+            db_embedding = pickle.loads(db_embedding)
+
+            distance = euclidean_distance(embedding, db_embedding)
+
+            if distance < THRESHOLD:
+                cur.close()
+                conn.close()
+
+                return {
+                    "status": "already_registered",
+                    "person_id": person_id
+                }
+
+        # لو شخص جديد
         cur.execute(
             "INSERT INTO persons (name, embedding) VALUES (%s, %s) RETURNING id",
             (name, pickle.dumps(embedding))
