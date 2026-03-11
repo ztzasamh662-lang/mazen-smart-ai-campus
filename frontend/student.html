@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>Student Dashboard</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+
+<h2>Student Panel</h2>
+
+<ul>
+
+<li><a href="student.html">Dashboard</a></li>
+
+<li><a href="student-alerts.html">My Alerts</a></li>
+
+<li><a href="student-chatbot.html">AI Chatbot</a></li>
+
+</ul>
+
+</div>
+
+
+<div class="main">
+
+<!-- Navbar -->
+<div class="navbar">
+
+<h3>Student Dashboard</h3>
+
+<div>
+
+<span id="student-name"></span>
+
+<button onclick="logout()" style="margin-left:15px;">Logout</button>
+
+</div>
+
+</div>
+
+
+<!-- Cards -->
+<div class="cards">
+
+<div class="card">
+<h4>My Attendance</h4>
+<p id="my-attendance">0%</p>
+</div>
+
+<div class="card">
+<h4>My Alerts</h4>
+<p id="my-alerts">0</p>
+</div>
+
+</div>
+
+
+<script src="js/student.js"></script>
+
+</body>
+</html>
