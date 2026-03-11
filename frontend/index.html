@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Smart AI Campus Dashboard</title>
+<link rel="stylesheet" href="css/style.css">
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+
+<h2>AI Campus</h2>
+
+<ul>
+<li><a href="index.html">Dashboard</a></li>
+<li><a href="attendance.html">Attendance</a></li>
+<li><a href="alerts.html">Alerts</a></li>
+</ul>
+
+</div>
+
+
+<div class="main">
+
+<!-- Navbar -->
+<div class="navbar">
+
+<h3>Admin Dashboard</h3>
+
+<div>
+
+<span class="admin">Admin</span>
+
+<button onclick="logout()" style="margin-left:15px;">Logout</button>
+
+</div>
+
+</div>
+
+
+
+<!-- Dashboard Cards -->
+<div class="cards">
+
+<div class="card">
+<h4>Total Students</h4>
+<p id="total-students">0</p>
+</div>
+
+<div class="card">
+<h4>Present Today</h4>
+<p id="present-today">0</p>
+</div>
+
+<div class="card">
+<h4>Alerts</h4>
+<p id="alerts-count">0</p>
+</div>
+
+<div class="card">
+<h4>System Status</h4>
+<p id="system-status">🟢 Running</p>
+</div>
+
+<div class="card">
+<h4>Live Detection</h4>
+<p id="live-detection">Waiting...</p>
+</div>
+
+</div>
+
+
+
+<!-- Charts Section -->
+<div class="charts">
+
+<div class="chart-box">
+
+<h4>Attendance Overview</h4>
+
+<canvas id="attendanceChart"></canvas>
+
+</div>
+
+
+<div class="chart-box">
+
+<h4>Alerts Overview</h4>
+
+<canvas id="alertsChart"></canvas>
+
+</div>
+
+</div>
+
+
+
+<!-- Attendance Table -->
+<div class="table-section">
+
+<h4>Recent Attendance</h4>
+
+<table id="attendance-table">
+
+<thead>
+
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Confidence</th>
+<th>Status</th>
+<th>Note</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+
+<script src="js/main.js"></script>
+
+</body>
+</html>
