@@ -9,6 +9,13 @@ DISTANCE_METRIC = "cosine"
 
 ATTENDANCE_FILE = os.path.join(BASE_DIR, "data", "attendance.csv")
 
+DB_CONFIG = {
+    "dbname": "smart_ai",
+    "user": "postgres",
+    "password": "postgres123",
+    "host": "localhost",
+    "port": "5432"
+}
 # 🔥 Mapping ثابت للأسماء
 STUDENT_NAMES = {
     "2021001": "Ahmed",
