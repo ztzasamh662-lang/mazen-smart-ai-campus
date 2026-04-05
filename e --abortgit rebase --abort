@@ -1,0 +1,10 @@
+* [33m2fcda01[m[33m ([m[1;32mdev[m[33m)[m Month 2 completed - Smart AI Campus
+* [33ma31e7c5[m cleanup project and add gitignore
+* [33m461df2b[m cleanup git tracking
+[31m|[m * [33m06e1b89[m[33m ([m[1;36mHEAD[m[33m, [m[1;31morigin/dev[m[33m, [m[1;31morigin/HEAD[m[33m)[m Project cleanup and add init files
+[31m|[m * [33m2887d5b[m Merge pull request #1 from ztzasamh662-lang/feature/face-recognition-mazen
+[31m|[m[31m/[m[34m|[m 
+[31m|[m * [33m0c7b868[m[33m ([m[1;31morigin/feature/face-recognition-mazen[m[33m)[m Initial commit - Smart AI Campus Face Recognition module
+[31m|[m * [33m1dd5d59[m Remove sensitive student data from repository
+[31m|[m[31m/[m  
+* [33ma03eb16[m Remove venv from repository
