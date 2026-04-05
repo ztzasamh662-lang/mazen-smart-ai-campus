@@ -3,6 +3,7 @@ import cv2
 import time
 from ultralytics import YOLO
 
+from core.movement_engine import log_movement
 from core.logging_service import log_recognition
 from core.snapshot_manager import save_snapshot
 from core.recognition_engine import recognize_face
@@ -73,10 +74,12 @@ class SimpleTracker:
                 result = recognize_face(snapshot_path)
 
                 if result["status"] == "matched":
-
                     self.recognition_state[obj_id]["status"] = "matched"
                     self.recognition_state[obj_id]["person_id"] = result["person_id"]
+                    self.recognition_state[obj_id]["name"] = result["name"]
 
+                    log_movement(result["person_id"], camera_id=1)
+                    
                     store_identity(obj_id, result["person_id"], time.time())
 
                     log_recognition(

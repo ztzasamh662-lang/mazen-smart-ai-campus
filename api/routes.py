@@ -4,6 +4,21 @@ import os
 import cv2
 import time
 
+from core.project_info import get_project_info
+from core.system_monitor import get_system_status
+from core.heatmap_renderer import generate_heatmap
+from fastapi.responses import FileResponse
+from core.dashboard_engine import (
+    get_dashboard_stats,
+    get_recent_activity
+)
+from core.heatmap_engine import get_heatmap_data
+from core.analytics_engine import (
+    get_camera_activity,
+    get_top_persons,
+    get_total_events
+)
+from core.movement_engine import get_person_movement
 from core.camera_manager import CameraManager
 from core.live_camera import run_live_camera
 from core.registration_service import register_person
@@ -182,3 +197,122 @@ def start_campus_cameras():
     manager.run()
 
     return {"status": "campus cameras started"}
+
+@router.get("/movement/{person_id}")
+def get_movement(person_id: int):
+
+    rows = get_person_movement(person_id)
+
+    history = []
+
+    for camera_id, timestamp in rows:
+
+        history.append({
+            "camera_id": camera_id,
+            "timestamp": str(timestamp)
+        })
+
+    return {
+        "person_id": person_id,
+        "movement": history
+    }
+
+@router.get("/analytics/cameras")
+def camera_activity():
+
+    data = get_camera_activity()
+
+    return {
+        "camera_activity": data
+    }
+@router.get("/analytics/top-persons")
+def top_persons():
+
+    data = get_top_persons()
+
+    return {
+        "top_persons": data
+    }
+@router.get("/analytics/events")
+def total_events():
+
+    data = get_total_events()
+
+    return data
+
+@router.get("/analytics/heatmap")
+def campus_heatmap():
+
+    data = get_heatmap_data()
+
+    return {
+        "heatmap": data
+    }
+
+@router.get("/dashboard/overview")
+def dashboard_overview():
+
+    stats = get_dashboard_stats()
+
+    return {
+        "dashboard": stats
+    }
+
+@router.get("/dashboard/activity")
+def dashboard_activity():
+
+    activity = get_recent_activity()
+
+    return {
+        "recent_activity": activity
+    }
+
+from core.analytics_engine import (
+    get_camera_activity,
+    get_top_persons
+)
+
+from core.heatmap_engine import get_heatmap_data
+
+
+@router.get("/dashboard/full")
+def dashboard_full():
+
+    stats = get_dashboard_stats()
+    cameras = get_camera_activity()
+    top_persons = get_top_persons()
+    heatmap = get_heatmap_data()
+    activity = get_recent_activity()
+
+    return {
+        "stats": stats,
+        "camera_activity": cameras,
+        "top_persons": top_persons,
+        "heatmap": heatmap,
+        "recent_activity": activity
+    }
+
+@router.get("/heatmap/image")
+def heatmap_image():
+
+    path = generate_heatmap()
+
+    return FileResponse(path)
+
+@router.get("/system/status")
+def system_status():
+
+    return get_system_status()
+
+@router.get("/project/info")
+def project_info():
+
+    return get_project_info()
+@router.get("/health")
+def health_check():
+
+    return {
+        "status": "running",
+        "service": "Smart AI Campus",
+        "ai_engine": "active"
+    }
